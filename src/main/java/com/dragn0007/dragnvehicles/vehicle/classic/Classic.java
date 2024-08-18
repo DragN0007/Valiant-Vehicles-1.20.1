@@ -79,24 +79,22 @@ public class Classic extends Entity implements ContainerListener {
         private static final float FRICTION = 0.7f;
         private static final float GRAVITY = 0.08f;
 
+    private float targetRotation = 0;
+    private float currentRotation = 0;
+    public int forwardMotion = 1;
 
-        private float targetRotation = 0;
-        private float currentRotation = 0;
+    public int driveTick = 0;
+    public float lastDrivePartialTick = 0;
+    public Vec3 lastClientPos = Vec3.ZERO;
 
-        public int forwardMotion = 1;
+    public SimpleContainer inventory;
+    private LazyOptional<?> itemHandler;
 
-        public int driveTick = 0;
-        public float lastDrivePartialTick = 0;
-        public Vec3 lastPos = Vec3.ZERO;
-
-        public SimpleContainer inventory;
-        private LazyOptional<?> itemHandler;
-
-        private int lerpSteps;
-        private double targetX;
-        private double targetY;
-        private double targetZ;
-        private float targetYRot;
+    private int lerpSteps;
+    private double targetX;
+    private double targetY;
+    private double targetZ;
+    private float targetYRot;
 
     public Classic(EntityType < ? > entityType, Level level){
             super(entityType, level);
@@ -149,8 +147,8 @@ public class Classic extends Entity implements ContainerListener {
         }
 
         public void updateLastDrivePartialTick ( float partialTick){
-            double xStep = this.position().x - this.lastPos.x;
-            double zStep = this.position().z - this.lastPos.z;
+            double xStep = this.position().x - this.lastClientPos.x;
+            double zStep = this.position().z - this.lastClientPos.z;
 
             if (xStep * xStep + zStep * zStep != 0) {
                 this.lastDrivePartialTick = partialTick;
@@ -158,8 +156,8 @@ public class Classic extends Entity implements ContainerListener {
         }
 
         public void calcAnimStep () {
-            double xStep = this.position().x - this.lastPos.x;
-            double zStep = this.position().z - this.lastPos.z;
+            double xStep = this.position().x - this.lastClientPos.x;
+            double zStep = this.position().z - this.lastClientPos.z;
             float deg = (float) (Math.atan2(xStep, zStep) * 180 / Math.PI);
 
             if (xStep * xStep + zStep * zStep != 0) {
@@ -277,6 +275,7 @@ public class Classic extends Entity implements ContainerListener {
     @Override
     public void tick() {
         super.tick();
+        this.lastClientPos = this.position();
 
         if(this.isControlledByLocalInstance()) {
             this.lerpSteps = 0;
@@ -297,6 +296,9 @@ public class Classic extends Entity implements ContainerListener {
             }
             this.move(MoverType.SELF, this.getDeltaMovement());
 
+            if(this.lastClientPos.x != this.position().x || this.lastClientPos.y != this.position().y || this.lastClientPos.z != this.position().z) {
+                this.syncPacketPositionCodec(this.position().x, this.position().y, this.position().z);
+            }
         } else {
             this.setDeltaMovement(0, 0, 0);
         }
