@@ -334,7 +334,7 @@ public class Truck extends Entity implements ContainerListener {
             } else {
                 if(!this.level().isClientSide) {
                     NetworkHooks.openScreen((ServerPlayer) player, new SimpleMenuProvider((containerId, inventory, serverPlayer) -> {
-                        return ChestMenu.threeRows(containerId, inventory, this.inventory);
+                        return ChestMenu.sixRows(containerId, inventory, this.inventory);
                     }, this.getDisplayName()));
                 }
             }

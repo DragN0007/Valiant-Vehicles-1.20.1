@@ -327,6 +327,14 @@ public class SportCar extends Entity implements ContainerListener {
             this.lerpSteps--;
         }
 
+        if (this.isVehicle()) {
+            if (VehicleKeyMappings.DRIFT_KEY.isDown()) {
+                this.setFriction(DRIFTING_FRICTION);
+            } else {
+                this.setFriction(FRICTION);
+            }
+        }
+
         this.calcAnimStep();
     }
 
@@ -347,7 +355,7 @@ public class SportCar extends Entity implements ContainerListener {
             } else {
                 if(!this.level().isClientSide) {
                     NetworkHooks.openScreen((ServerPlayer) player, new SimpleMenuProvider((containerId, inventory, serverPlayer) -> {
-                        return ChestMenu.threeRows(containerId, inventory, this.inventory);
+                        return ChestMenu.oneRow(containerId, inventory);
                     }, this.getDisplayName()));
                 }
             }

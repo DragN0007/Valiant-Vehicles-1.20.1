@@ -26,6 +26,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ChestMenu;
+import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.ItemStack;
@@ -337,7 +338,7 @@ public class SUV extends Entity implements ContainerListener {
             } else {
                 if(!this.level().isClientSide) {
                     NetworkHooks.openScreen((ServerPlayer) player, new SimpleMenuProvider((containerId, inventory, serverPlayer) -> {
-                        return ChestMenu.threeRows(containerId, inventory, this.inventory);
+                        return new ChestMenu(MenuType.GENERIC_9x4, containerId, inventory, this.inventory, 4);
                     }, this.getDisplayName()));
                 }
             }

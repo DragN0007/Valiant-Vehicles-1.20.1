@@ -4,7 +4,6 @@ import net.minecraft.client.model.geom.ModelPart;
 
 import static com.dragn0007.dragnvehicles.ValiantVehiclesMain.mod;
 
-
 public final class Animation {
 
     public record Vec3f(float x, float y, float z) {}
