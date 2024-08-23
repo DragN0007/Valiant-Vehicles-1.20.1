@@ -2,7 +2,7 @@ package com.dragn0007.dragnvehicles.vehicle.sportcar;
 
 import com.dragn0007.dragnvehicles.ValiantVehiclesMain;
 import com.dragn0007.dragnvehicles.registry.ItemRegistry;
-import com.dragn0007.dragnvehicles.registry.VehicleKeyMappings;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.Input;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.Direction;
@@ -272,7 +272,11 @@ public class SportCar extends Entity implements ContainerListener {
         }
 
         if (this.isVehicle()) {
-            if (VehicleKeyMappings.DRIFT_KEY.isDown()) {
+            LivingEntity livingentity = (LivingEntity) this.getControllingPassenger();
+            Player player = (Player) livingentity;
+            Minecraft game = Minecraft.getInstance();
+            LocalPlayer localPlayer = game.player;
+            if (localPlayer !=null && localPlayer.input.jumping) {
                 this.setFriction(DRIFTING_FRICTION);
             } else {
                 this.setFriction(FRICTION);
@@ -334,13 +338,17 @@ public class SportCar extends Entity implements ContainerListener {
             this.lerpSteps--;
         }
 
-        if (this.isVehicle()) {
-            if (VehicleKeyMappings.DRIFT_KEY.isDown()) {
-                this.setFriction(DRIFTING_FRICTION);
-            } else {
-                this.setFriction(FRICTION);
-            }
-        }
+//        if (this.isVehicle()) {
+//            LivingEntity livingentity = (LivingEntity) this.getControllingPassenger();
+//            Player player = (Player) livingentity;
+//            Minecraft game = Minecraft.getInstance();
+//            LocalPlayer localPlayer = game.player;
+//            if (localPlayer !=null && localPlayer.input.jumping) {
+//                this.setFriction(DRIFTING_FRICTION);
+//            } else {
+//                this.setFriction(FRICTION);
+//            }
+//        }
 
         this.calcAnimStep();
     }
