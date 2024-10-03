@@ -22,12 +22,14 @@ public class VVItemModelProvider extends ItemModelProvider {
         simpleItem(ItemRegistry.TRUCK_SPAWN_EGG);
         simpleItem(ItemRegistry.SUV_SPAWN_EGG);
         simpleItem(ItemRegistry.SPORT_CAR_SPAWN_EGG);
+        simpleItem(ItemRegistry.MOTORCYCLE_SPAWN_EGG);
 
         simpleItem(ItemRegistry.CAR_BODY);
         simpleItem(ItemRegistry.CLASSIC_BODY);
         simpleItem(ItemRegistry.TRUCK_BODY);
         simpleItem(ItemRegistry.SUV_BODY);
         simpleItem(ItemRegistry.SPORT_CAR_BODY);
+        simpleItem(ItemRegistry.MOTORCYCLE_BODY);
         simpleItem(ItemRegistry.WHEEL);
         simpleItem(ItemRegistry.SPORTS_WHEEL);
         simpleItem(ItemRegistry.ENGINE);

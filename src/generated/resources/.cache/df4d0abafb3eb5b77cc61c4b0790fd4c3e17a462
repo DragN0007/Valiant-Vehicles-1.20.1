@@ -1,9 +1,11 @@
-// 1.20.1	2024-08-18T01:36:35.3448688	Item Models: dragnvehicles
+// 1.20.1	2024-10-03T00:29:20.442087	Item Models: dragnvehicles
 54362cde0f51b012e93bf02719213388bb8a7de5 assets/dragnvehicles/models/item/car.json
 5a6617ca3c45798d7107abe6cf8664ea59f96910 assets/dragnvehicles/models/item/car_body.json
 2fc0022bbd44127300a4e4a35cfb10f3bd597d77 assets/dragnvehicles/models/item/classic.json
 bef01ddbda796e57d2fa0199400988efcf60167c assets/dragnvehicles/models/item/classic_body.json
 22e29cd53a7cd0203fd0c31aa14d32ec397ebdc2 assets/dragnvehicles/models/item/engine.json
+a3fc41a55afbb96c2e355521615895f520cd6f45 assets/dragnvehicles/models/item/motorcycle.json
+f8cce067e13cc41374757e8df85caf359d364b46 assets/dragnvehicles/models/item/motorcycle_body.json
 8189d86bc3c1a0c0866dee853ce18e1b2fbe6bf4 assets/dragnvehicles/models/item/sports_engine.json
 abbd75d4f6749005d9c33c9cc3f1cf95bcd0c43c assets/dragnvehicles/models/item/sports_wheel.json
 0130c67e21b04de82fe0ec24184228af3eca89b5 assets/dragnvehicles/models/item/sport_car.json

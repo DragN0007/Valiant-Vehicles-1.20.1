@@ -22,12 +22,14 @@ public class CreativeTabModifier {
            if(event.getTabKey() == CreativeModeTabs.SPAWN_EGGS) {
                event.accept(ItemRegistry.CAR_SPAWN_EGG);
                event.accept(ItemRegistry.CLASSIC_SPAWN_EGG);
+               event.accept(ItemRegistry.MOTORCYCLE_SPAWN_EGG);
                event.accept(ItemRegistry.SPORT_CAR_SPAWN_EGG);
                event.accept(ItemRegistry.SUV_SPAWN_EGG);
                event.accept(ItemRegistry.TRUCK_SPAWN_EGG);
 
                event.accept(ItemRegistry.CAR_BODY);
                event.accept(ItemRegistry.CLASSIC_BODY);
+               event.accept(ItemRegistry.MOTORCYCLE_BODY);
                event.accept(ItemRegistry.SPORT_CAR_BODY);
                event.accept(ItemRegistry.SUV_BODY);
                event.accept(ItemRegistry.TRUCK_BODY);

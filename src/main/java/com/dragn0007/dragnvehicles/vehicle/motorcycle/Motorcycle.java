@@ -1,4 +1,4 @@
-package com.dragn0007.dragnvehicles.vehicle.sportcar;
+package com.dragn0007.dragnvehicles.vehicle.motorcycle;
 
 import com.dragn0007.dragnvehicles.ValiantVehiclesMain;
 import com.dragn0007.dragnvehicles.registry.ItemRegistry;
@@ -47,36 +47,36 @@ import java.util.Map;
 import static com.dragn0007.dragnvehicles.ValiantVehiclesMain.mod;
 
 
-public class SportCar extends Entity implements ContainerListener {
+public class Motorcycle extends Entity implements ContainerListener {
 
-    private static final EntityDataAccessor<ResourceLocation> TEXTURE = SynchedEntityData.defineId(SportCar.class, ValiantVehiclesMain.RESOURCE_SERIALIZER);
+    private static final EntityDataAccessor<ResourceLocation> TEXTURE = SynchedEntityData.defineId(Motorcycle.class, ValiantVehiclesMain.RESOURCE_SERIALIZER);
 
-    private static final EntityDataAccessor<Float> HEALTH = SynchedEntityData.defineId(SportCar.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Float> HEALTH = SynchedEntityData.defineId(Motorcycle.class, EntityDataSerializers.FLOAT);
 
-    private static final ResourceLocation DEFAULT_TEXTURE = new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/sportcar/white.png");
+    private static final ResourceLocation DEFAULT_TEXTURE = new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/motorcycle/white.png");
 
     private static final Map<DyeItem, ResourceLocation> COLOR_MAP = new HashMap<>() {{
-        put(DyeItem.byColor(DyeColor.BLACK), new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/sportcar/black.png"));
-        put(DyeItem.byColor(DyeColor.BLUE), new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/sportcar/blue.png"));
-        put(DyeItem.byColor(DyeColor.BROWN), new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/sportcar/brown.png"));
-        put(DyeItem.byColor(DyeColor.CYAN), new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/sportcar/cyan.png"));
-        put(DyeItem.byColor(DyeColor.GRAY), new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/sportcar/grey.png"));
-        put(DyeItem.byColor(DyeColor.LIGHT_BLUE), new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/sportcar/light_blue.png"));
-        put(DyeItem.byColor(DyeColor.LIGHT_GRAY), new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/sportcar/light_grey.png"));
-        put(DyeItem.byColor(DyeColor.LIME), new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/sportcar/lime.png"));
-        put(DyeItem.byColor(DyeColor.MAGENTA), new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/sportcar/magenta.png"));
-        put(DyeItem.byColor(DyeColor.ORANGE), new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/sportcar/orange.png"));
-        put(DyeItem.byColor(DyeColor.PINK), new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/sportcar/pink.png"));
-        put(DyeItem.byColor(DyeColor.PURPLE), new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/sportcar/purple.png"));
-        put(DyeItem.byColor(DyeColor.RED), new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/sportcar/red.png"));
-        put(DyeItem.byColor(DyeColor.WHITE), new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/sportcar/white.png"));
-        put(DyeItem.byColor(DyeColor.GREEN), new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/sportcar/green.png"));
-        put(DyeItem.byColor(DyeColor.YELLOW), new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/sportcar/yellow.png"));
+        put(DyeItem.byColor(DyeColor.BLACK), new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/motorcycle/black.png"));
+        put(DyeItem.byColor(DyeColor.BLUE), new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/motorcycle/blue.png"));
+        put(DyeItem.byColor(DyeColor.BROWN), new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/motorcycle/brown.png"));
+        put(DyeItem.byColor(DyeColor.CYAN), new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/motorcycle/cyan.png"));
+        put(DyeItem.byColor(DyeColor.GRAY), new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/motorcycle/grey.png"));
+        put(DyeItem.byColor(DyeColor.LIGHT_BLUE), new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/motorcycle/light_blue.png"));
+        put(DyeItem.byColor(DyeColor.LIGHT_GRAY), new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/motorcycle/light_grey.png"));
+        put(DyeItem.byColor(DyeColor.LIME), new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/motorcycle/lime.png"));
+        put(DyeItem.byColor(DyeColor.MAGENTA), new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/motorcycle/magenta.png"));
+        put(DyeItem.byColor(DyeColor.ORANGE), new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/motorcycle/orange.png"));
+        put(DyeItem.byColor(DyeColor.PINK), new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/motorcycle/pink.png"));
+        put(DyeItem.byColor(DyeColor.PURPLE), new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/motorcycle/purple.png"));
+        put(DyeItem.byColor(DyeColor.RED), new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/motorcycle/red.png"));
+        put(DyeItem.byColor(DyeColor.WHITE), new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/motorcycle/white.png"));
+        put(DyeItem.byColor(DyeColor.GREEN), new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/motorcycle/green.png"));
+        put(DyeItem.byColor(DyeColor.YELLOW), new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/motorcycle/yellow.png"));
     }};
 
     private static final float MAX_HEALTH = 20f;
-    private static final float SPEED = 0.24f;
-    private static final float TURN_SPEED = 1f;
+    private static final float SPEED = 0.28f;
+    private static final float TURN_SPEED = 1.6f;
     private static final float MAX_TURN = 6f;
     private static final float FRICTION = 0.7f;
     private static final float DRIFTING_FRICTION = 0.9f;
@@ -98,7 +98,7 @@ public class SportCar extends Entity implements ContainerListener {
     private double targetZ;
     private float targetYRot;
 
-    public SportCar(EntityType<?> entityType, Level level) {
+    public Motorcycle(EntityType<?> entityType, Level level) {
         super(entityType, level);
         this.createInventory();
     }
@@ -170,7 +170,7 @@ public class SportCar extends Entity implements ContainerListener {
 
     @Override
     protected boolean canAddPassenger(Entity entity) {
-        return this.getPassengers().size() < 4;
+        return this.getPassengers().size() < 1;
     }
 
     @Override
@@ -178,23 +178,10 @@ public class SportCar extends Entity implements ContainerListener {
         int i = this.getPassengers().indexOf(entity);
         switch (i) {
             case 0:
-                entity.setPos(this.calcOffset(0.6, 0.1, -0.2));
-                break;
-            case 1:
-                entity.setPos(this.calcOffset(-0.6, 0.1, -0.2));
-                break;
-            case 2:
-                entity.setPos(this.calcOffset(0.6, 0.1, -2.0));
-                break;
-            case 3:
-                entity.setPos(this.calcOffset(-0.6, 0.1, -2.0));
+                entity.setPos(this.calcOffset(0, 0.8, -0.5));
                 break;
         }
     }
-    // 0 = Driver
-
-    // 0 | 1
-    // 2 | 3
 
     @Override
     public boolean hurt(DamageSource damageSource, float damage) {
@@ -206,7 +193,7 @@ public class SportCar extends Entity implements ContainerListener {
 
             if(health < 0) {
                 Containers.dropContents(this.level(), this, this.inventory);
-                this.spawnAtLocation(ItemRegistry.SPORT_CAR_SPAWN_EGG.get());
+                this.spawnAtLocation(ItemRegistry.MOTORCYCLE_SPAWN_EGG.get());
                 this.kill();
             }
         }
@@ -295,6 +282,10 @@ public class SportCar extends Entity implements ContainerListener {
         return (this.currentRotation + (this.targetRotation - this.currentRotation) * time) * (float)Math.PI / 180;
     }
 
+    public float getHandleRotation(float time) {
+        return (this.currentRotation + (this.targetRotation - this.currentRotation) * time) * (float)Math.PI / 180;
+    }
+
     @Override
     public void tick() {
         super.tick();
@@ -337,18 +328,6 @@ public class SportCar extends Entity implements ContainerListener {
             this.setYRot(yRot);
             this.lerpSteps--;
         }
-
-//        if (this.isVehicle()) {
-//            LivingEntity livingentity = (LivingEntity) this.getControllingPassenger();
-//            Player player = (Player) livingentity;
-//            Minecraft game = Minecraft.getInstance();
-//            LocalPlayer localPlayer = game.player;
-//            if (localPlayer !=null && localPlayer.input.jumping) {
-//                this.setFriction(DRIFTING_FRICTION);
-//            } else {
-//                this.setFriction(FRICTION);
-//            }
-//        }
 
         this.calcAnimStep();
     }
