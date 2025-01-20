@@ -200,7 +200,7 @@ public class Truck extends Entity implements ContainerListener {
 
             if(health < 0) {
                 Containers.dropContents(this.level(), this, this.inventory);
-                this.spawnAtLocation(ItemRegistry.CAR_SPAWN_EGG.get());
+                this.spawnAtLocation(ItemRegistry.TRUCK_SPAWN_EGG.get());
                 this.kill();
             }
         }

@@ -171,7 +171,6 @@ public class Car extends Entity implements ContainerListener {
         return this.getPassengers().size() < 4;
     }
 
-
     @Override
             public void positionRider(Entity entity, Entity.MoveFunction moveFunction) {
         int i = this.getPassengers().indexOf(entity);
