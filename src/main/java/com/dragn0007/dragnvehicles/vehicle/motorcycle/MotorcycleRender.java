@@ -13,6 +13,9 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class MotorcycleRender extends EntityRenderer<Motorcycle> {
     public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(ValiantVehiclesMain.MODID, "motorcycle"), "main");
 
@@ -41,6 +44,14 @@ public class MotorcycleRender extends EntityRenderer<Motorcycle> {
         this.model = new MotorcycleModel<>(context.bakeLayer(LAYER_LOCATION));
     }
 
+    public static Map<String, ResourceLocation> CACHED_TEXTURES = new HashMap<>();
+
+    @Override
+    public ResourceLocation getTextureLocation(Motorcycle tractor) {
+        String texture = tractor.getTexture();
+        return CACHED_TEXTURES.computeIfAbsent(texture, ResourceLocation::tryParse);
+    }
+
     @Override
     public void render(Motorcycle motorcycle, float rotation, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
         poseStack.pushPose();
@@ -52,17 +63,11 @@ public class MotorcycleRender extends EntityRenderer<Motorcycle> {
         this.model.prepareMobModel(motorcycle, 0, 0, partialTick);
         this.model.setupAnim(motorcycle, partialTick, 0, 0, 0, 0);
 
-        VertexConsumer vertexConsumer = bufferSource.getBuffer(this.model.renderType(motorcycle.getTextureLocation()));
+        VertexConsumer vertexConsumer = bufferSource.getBuffer(this.model.renderType(this.getTextureLocation(motorcycle)));
         this.model.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
 
         poseStack.popPose();
         super.render(motorcycle, rotation, partialTick, poseStack, bufferSource, packedLight);
-    }
-
-    @Override
-    @NotNull
-    public ResourceLocation getTextureLocation(Motorcycle motorcycle) {
-        return motorcycle.getTextureLocation();
     }
 }
 

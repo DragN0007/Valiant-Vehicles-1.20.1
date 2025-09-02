@@ -32,6 +32,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
@@ -47,29 +49,29 @@ import static com.dragn0007.dragnvehicles.ValiantVehiclesMain.mod;
 
 public class Truck extends Entity implements ContainerListener {
 
-    private static final EntityDataAccessor<ResourceLocation> TEXTURE = SynchedEntityData.defineId(Truck.class, ValiantVehiclesMain.RESOURCE_SERIALIZER);
+    private static final EntityDataAccessor<String> TEXTURE = SynchedEntityData.defineId(Truck.class, EntityDataSerializers.STRING);
 
     private static final EntityDataAccessor<Float> HEALTH = SynchedEntityData.defineId(Truck.class, EntityDataSerializers.FLOAT);
 
     private static final ResourceLocation DEFAULT_TEXTURE = new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/truck/white.png");
 
-    private static final Map<DyeItem, ResourceLocation> COLOR_MAP = new HashMap<>() {{
-        put(DyeItem.byColor(DyeColor.BLACK), new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/truck/black.png"));
-        put(DyeItem.byColor(DyeColor.BLUE), new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/truck/blue.png"));
-        put(DyeItem.byColor(DyeColor.BROWN), new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/truck/brown.png"));
-        put(DyeItem.byColor(DyeColor.CYAN), new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/truck/cyan.png"));
-        put(DyeItem.byColor(DyeColor.GRAY), new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/truck/grey.png"));
-        put(DyeItem.byColor(DyeColor.LIGHT_BLUE), new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/truck/light_blue.png"));
-        put(DyeItem.byColor(DyeColor.LIGHT_GRAY), new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/truck/light_grey.png"));
-        put(DyeItem.byColor(DyeColor.LIME), new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/truck/lime.png"));
-        put(DyeItem.byColor(DyeColor.MAGENTA), new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/truck/magenta.png"));
-        put(DyeItem.byColor(DyeColor.ORANGE), new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/truck/orange.png"));
-        put(DyeItem.byColor(DyeColor.PINK), new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/truck/pink.png"));
-        put(DyeItem.byColor(DyeColor.PURPLE), new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/truck/purple.png"));
-        put(DyeItem.byColor(DyeColor.RED), new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/truck/red.png"));
-        put(DyeItem.byColor(DyeColor.WHITE), new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/truck/white.png"));
-        put(DyeItem.byColor(DyeColor.GREEN), new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/truck/green.png"));
-        put(DyeItem.byColor(DyeColor.YELLOW), new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/truck/yellow.png"));
+    private static final Map<DyeColor, ResourceLocation> COLOR_MAP = new HashMap<>() {{
+        put(DyeColor.BLACK, new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/truck/black.png"));
+        put(DyeColor.BLUE, new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/truck/blue.png"));
+        put(DyeColor.BROWN, new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/truck/brown.png"));
+        put(DyeColor.CYAN, new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/truck/cyan.png"));
+        put(DyeColor.GRAY, new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/truck/gray.png"));
+        put(DyeColor.LIGHT_BLUE, new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/truck/light_blue.png"));
+        put(DyeColor.LIGHT_GRAY, new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/truck/light_gray.png"));
+        put(DyeColor.LIME, new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/truck/lime.png"));
+        put(DyeColor.MAGENTA, new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/truck/magenta.png"));
+        put(DyeColor.ORANGE, new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/truck/orange.png"));
+        put(DyeColor.PINK, new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/truck/pink.png"));
+        put(DyeColor.PURPLE, new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/truck/purple.png"));
+        put(DyeColor.RED, new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/truck/red.png"));
+        put(DyeColor.WHITE, new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/truck/white.png"));
+        put(DyeColor.GREEN, new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/truck/green.png"));
+        put(DyeColor.YELLOW, new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/truck/yellow.png"));
     }};
 
     private static final float MAX_HEALTH = 25f;
@@ -227,6 +229,7 @@ public class Truck extends Entity implements ContainerListener {
         return 1;
     }
 
+    @OnlyIn(Dist.CLIENT)
     private void handleInput (Input input){
         float forward = 0;
         float turn = 0;
@@ -318,6 +321,14 @@ public class Truck extends Entity implements ContainerListener {
         return (this.currentRotation + (this.targetRotation - this.currentRotation) * time) * (float)Math.PI / 180;
     }
 
+    public String getTexture() {
+        return this.entityData.get(TEXTURE);
+    }
+
+    public void setTexture(String texture) {
+        this.entityData.set(TEXTURE, texture);
+    }
+
     @Override
     @NotNull
     public InteractionResult interact(Player player, InteractionHand hand) {
@@ -327,7 +338,7 @@ public class Truck extends Entity implements ContainerListener {
                 this.level().playSound(player, this, SoundEvents.DYE_USE, SoundSource.PLAYERS, 1f, 1f);
 
                 if (!this.level().isClientSide) {
-                    this.entityData.set(TEXTURE, COLOR_MAP.get(dyeItem));
+                    this.setTexture(COLOR_MAP.get(dyeItem.getDyeColor()).toString());
                     itemStack.shrink(1);
                 }
 
@@ -344,20 +355,16 @@ public class Truck extends Entity implements ContainerListener {
         }
         return super.interact(player, hand);
     }
-    public ResourceLocation getTextureLocation () {
-        return this.entityData.get(TEXTURE);
-    }
 
     @Override
-    protected void defineSynchedData () {
-        this.entityData.define(TEXTURE, DEFAULT_TEXTURE);
+    protected void defineSynchedData() {
+        this.entityData.define(TEXTURE, DEFAULT_TEXTURE.toString());
         this.entityData.define(HEALTH, MAX_HEALTH);
     }
 
     @Override
     protected void readAdditionalSaveData(CompoundTag compoundTag) {
-        ResourceLocation texture = ResourceLocation.tryParse(compoundTag.getString("Texture"));
-        this.entityData.set(TEXTURE, texture == null ? DEFAULT_TEXTURE : texture);
+        this.entityData.set(TEXTURE, compoundTag.getString("Texture"));
         this.entityData.set(HEALTH, compoundTag.getFloat("Health"));
 
         this.createInventory();

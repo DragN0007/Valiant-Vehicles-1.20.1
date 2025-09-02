@@ -13,6 +13,9 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class SUVRender extends EntityRenderer<SUV> {
     public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(ValiantVehiclesMain.MODID, "suv"), "main");
 
@@ -43,6 +46,14 @@ public class SUVRender extends EntityRenderer<SUV> {
         this.model = new SUVModel(context.bakeLayer(LAYER_LOCATION));
     }
 
+    public static Map<String, ResourceLocation> CACHED_TEXTURES = new HashMap<>();
+
+    @Override
+    public ResourceLocation getTextureLocation(SUV tractor) {
+        String texture = tractor.getTexture();
+        return CACHED_TEXTURES.computeIfAbsent(texture, ResourceLocation::tryParse);
+    }
+
     @Override
     public void render(SUV car, float rotation, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
         poseStack.pushPose();
@@ -54,17 +65,11 @@ public class SUVRender extends EntityRenderer<SUV> {
         this.model.prepareMobModel(car, 0, 0, partialTick);
         this.model.setupAnim(car, partialTick, 0, 0, 0, 0);
 
-        VertexConsumer vertexConsumer = bufferSource.getBuffer(this.model.renderType(car.getTextureLocation()));
+        VertexConsumer vertexConsumer = bufferSource.getBuffer(this.model.renderType(this.getTextureLocation(car)));
         this.model.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
 
         poseStack.popPose();
         super.render(car, rotation, partialTick, poseStack, bufferSource, packedLight);
-    }
-
-    @Override
-    @NotNull
-    public ResourceLocation getTextureLocation(SUV car) {
-        return car.getTextureLocation();
     }
 }
 

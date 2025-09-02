@@ -1,6 +1,7 @@
 package com.dragn0007.dragnvehicles.vehicle.truck;
 
 import com.dragn0007.dragnvehicles.Animation;
+import com.dragn0007.dragnvehicles.ValiantVehiclesMain;
 import com.dragn0007.dragnvehicles.vehicle.car.CarRender;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -12,7 +13,7 @@ import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
 
 public class TruckModel extends EntityModel<Truck> {
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation("modid", "truck"), "main");
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(ValiantVehiclesMain.MODID, "truck"), "main");
 	private final ModelPart Body;
 	private final ModelPart FrontWheels;
 	private final ModelPart BackWheels;

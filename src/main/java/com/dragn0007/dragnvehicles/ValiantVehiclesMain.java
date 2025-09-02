@@ -22,14 +22,11 @@ public class ValiantVehiclesMain
     public static final Logger LOGGER = LogUtils.getLogger();
     public static final String MODID = "dragnvehicles";
 
-    public static final EntityDataSerializer<ResourceLocation> RESOURCE_SERIALIZER = EntityDataSerializer.simple(FriendlyByteBuf::writeResourceLocation, FriendlyByteBuf::readResourceLocation);
-
     public ValiantVehiclesMain()
     {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientSetup);
         IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
-        EntityDataSerializers.registerSerializer(RESOURCE_SERIALIZER);
         ItemRegistry.ITEMS.register(eventBus);
         VehicleRegistry.ENTITY_TYPES.register(eventBus);
 

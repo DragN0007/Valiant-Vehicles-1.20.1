@@ -32,6 +32,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
@@ -47,37 +49,37 @@ import static com.dragn0007.dragnvehicles.ValiantVehiclesMain.mod;
 
 public class Classic extends Entity implements ContainerListener {
 
-         private static final EntityDataAccessor<ResourceLocation> TEXTURE = SynchedEntityData.defineId(Classic.class, ValiantVehiclesMain.RESOURCE_SERIALIZER);
+     private static final EntityDataAccessor<String> TEXTURE = SynchedEntityData.defineId(Classic.class, EntityDataSerializers.STRING);
 
-        private static final EntityDataAccessor<Float> HEALTH = SynchedEntityData.defineId(Classic.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Float> HEALTH = SynchedEntityData.defineId(Classic.class, EntityDataSerializers.FLOAT);
 
-        private static final ResourceLocation DEFAULT_TEXTURE = new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/classic/white.png");
+    private static final ResourceLocation DEFAULT_TEXTURE = new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/classic/white.png");
 
-        private static final Map<DyeItem, ResourceLocation> COLOR_MAP = new HashMap<>() {{
-            put(DyeItem.byColor(DyeColor.BLACK), new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/classic/black.png"));
-            put(DyeItem.byColor(DyeColor.BLUE), new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/classic/blue.png"));
-            put(DyeItem.byColor(DyeColor.BROWN), new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/classic/brown.png"));
-            put(DyeItem.byColor(DyeColor.CYAN), new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/classic/cyan.png"));
-            put(DyeItem.byColor(DyeColor.GRAY), new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/classic/grey.png"));
-            put(DyeItem.byColor(DyeColor.LIGHT_BLUE), new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/classic/light_blue.png"));
-            put(DyeItem.byColor(DyeColor.LIGHT_GRAY), new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/classic/light_grey.png"));
-            put(DyeItem.byColor(DyeColor.LIME), new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/classic/lime.png"));
-            put(DyeItem.byColor(DyeColor.MAGENTA), new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/classic/magenta.png"));
-            put(DyeItem.byColor(DyeColor.ORANGE), new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/classic/orange.png"));
-            put(DyeItem.byColor(DyeColor.PINK), new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/classic/pink.png"));
-            put(DyeItem.byColor(DyeColor.PURPLE), new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/classic/purple.png"));
-            put(DyeItem.byColor(DyeColor.RED), new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/classic/red.png"));
-            put(DyeItem.byColor(DyeColor.WHITE), new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/classic/white.png"));
-            put(DyeItem.byColor(DyeColor.GREEN), new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/classic/green.png"));
-            put(DyeItem.byColor(DyeColor.YELLOW), new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/classic/yellow.png"));
-        }};
+    private static final Map<DyeColor, ResourceLocation> COLOR_MAP = new HashMap<>() {{
+        put(DyeColor.BLACK, new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/classic/black.png"));
+        put(DyeColor.BLUE, new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/classic/blue.png"));
+        put(DyeColor.BROWN, new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/classic/brown.png"));
+        put(DyeColor.CYAN, new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/classic/cyan.png"));
+        put(DyeColor.GRAY, new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/classic/gray.png"));
+        put(DyeColor.LIGHT_BLUE, new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/classic/light_blue.png"));
+        put(DyeColor.LIGHT_GRAY, new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/classic/light_gray.png"));
+        put(DyeColor.LIME, new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/classic/lime.png"));
+        put(DyeColor.MAGENTA, new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/classic/magenta.png"));
+        put(DyeColor.ORANGE, new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/classic/orange.png"));
+        put(DyeColor.PINK, new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/classic/pink.png"));
+        put(DyeColor.PURPLE, new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/classic/purple.png"));
+        put(DyeColor.RED, new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/classic/red.png"));
+        put(DyeColor.WHITE, new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/classic/white.png"));
+        put(DyeColor.GREEN, new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/classic/green.png"));
+        put(DyeColor.YELLOW, new ResourceLocation(ValiantVehiclesMain.MODID, "textures/entity/classic/yellow.png"));
+    }};
 
-        private static final float MAX_HEALTH = 20f;
-        private static final float SPEED = 0.18f;
-        private static final float TURN_SPEED = 1f;
-        private static final float MAX_TURN = 6f;
-        private static final float FRICTION = 0.7f;
-        private static final float GRAVITY = 0.08f;
+    private static final float MAX_HEALTH = 20f;
+    private static final float SPEED = 0.18f;
+    private static final float TURN_SPEED = 1f;
+    private static final float MAX_TURN = 6f;
+    private static final float FRICTION = 0.7f;
+    private static final float GRAVITY = 0.08f;
 
     private float targetRotation = 0;
     private float currentRotation = 0;
@@ -216,61 +218,62 @@ public class Classic extends Entity implements ContainerListener {
         return (LivingEntity) this.getFirstPassenger();
     }
 
-        @Override
-        public void lerpTo ( double x, double y, double z, float yRot, float xRot, int lerpSteps, boolean p_19902_){
-            this.targetX = x;
-            this.targetY = y;
-            this.targetZ = z;
-            this.targetYRot = yRot;
+    @Override
+    public void lerpTo ( double x, double y, double z, float yRot, float xRot, int lerpSteps, boolean p_19902_){
+        this.targetX = x;
+        this.targetY = y;
+        this.targetZ = z;
+        this.targetYRot = yRot;
 
-            this.lerpSteps = lerpSteps;
+        this.lerpSteps = lerpSteps;
+    }
+
+    @Override
+    public float getStepHeight () {
+        return 1;
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    private void handleInput (Input input){
+        float forward = 0;
+        float turn = 0;
+        int turnMod = 1;
+
+        if (input.up) {
+            forward = SPEED;
         }
 
-        @Override
-        public float getStepHeight () {
-            return 1;
+        if (input.down) {
+            forward = -SPEED;
+            turnMod = -1;
         }
 
-        private void handleInput (Input input){
-            float forward = 0;
-            float turn = 0;
-            int turnMod = 1;
-
-            if (input.up) {
-                forward = SPEED;
-            }
-
-            if (input.down) {
-                forward = -SPEED;
-                turnMod = -1;
-            }
-
-            if (input.left) {
-                turn = -TURN_SPEED * turnMod;
-            }
-
-            if (input.right) {
-                turn = TURN_SPEED * turnMod;
-            }
-
-            this.currentRotation = this.targetRotation;
-            if (Math.abs(this.targetRotation + turn) <= MAX_TURN) {
-                this.targetRotation += turn;
-            }
-
-            if (forward != 0 && turn == 0) {
-                this.targetRotation = 0;
-            }
-
-            float deg = this.currentRotation + this.getYRot();
-            float rad = deg * (float) Math.PI / 180;
-
-            if (forward != 0 && deg != this.getYRot()) {
-                this.setYRot(deg);
-            }
-
-            this.setDeltaMovement(this.getDeltaMovement().add(-Math.sin(rad) * forward, 0, Math.cos(rad) * forward));
+        if (input.left) {
+            turn = -TURN_SPEED * turnMod;
         }
+
+        if (input.right) {
+            turn = TURN_SPEED * turnMod;
+        }
+
+        this.currentRotation = this.targetRotation;
+        if (Math.abs(this.targetRotation + turn) <= MAX_TURN) {
+            this.targetRotation += turn;
+        }
+
+        if (forward != 0 && turn == 0) {
+            this.targetRotation = 0;
+        }
+
+        float deg = this.currentRotation + this.getYRot();
+        float rad = deg * (float) Math.PI / 180;
+
+        if (forward != 0 && deg != this.getYRot()) {
+            this.setYRot(deg);
+        }
+
+        this.setDeltaMovement(this.getDeltaMovement().add(-Math.sin(rad) * forward, 0, Math.cos(rad) * forward));
+    }
 
     @Override
     public void tick() {
@@ -318,9 +321,17 @@ public class Classic extends Entity implements ContainerListener {
         this.calcAnimStep();
     }
 
-        public float getFrontWheelRotation ( float time){
-            return (this.currentRotation + (this.targetRotation - this.currentRotation) * time) * (float) Math.PI / 180;
-        }
+    public float getFrontWheelRotation ( float time){
+        return (this.currentRotation + (this.targetRotation - this.currentRotation) * time) * (float) Math.PI / 180;
+    }
+
+    public String getTexture() {
+        return this.entityData.get(TEXTURE);
+    }
+
+    public void setTexture(String texture) {
+        this.entityData.set(TEXTURE, texture);
+    }
 
     @Override
     @NotNull
@@ -331,7 +342,7 @@ public class Classic extends Entity implements ContainerListener {
                 this.level().playSound(player, this, SoundEvents.DYE_USE, SoundSource.PLAYERS, 1f, 1f);
 
                 if (!this.level().isClientSide) {
-                    this.entityData.set(TEXTURE, COLOR_MAP.get(dyeItem));
+                    this.setTexture(COLOR_MAP.get(dyeItem.getDyeColor()).toString());
                     itemStack.shrink(1);
                 }
 
@@ -349,20 +360,15 @@ public class Classic extends Entity implements ContainerListener {
         return super.interact(player, hand);
     }
 
-    public ResourceLocation getTextureLocation() {
-        return this.entityData.get(TEXTURE);
-    }
-
     @Override
-    protected void defineSynchedData () {
-        this.entityData.define(TEXTURE, DEFAULT_TEXTURE);
+    protected void defineSynchedData() {
+        this.entityData.define(TEXTURE, DEFAULT_TEXTURE.toString());
         this.entityData.define(HEALTH, MAX_HEALTH);
     }
 
     @Override
     protected void readAdditionalSaveData(CompoundTag compoundTag) {
-        ResourceLocation texture = ResourceLocation.tryParse(compoundTag.getString("Texture"));
-        this.entityData.set(TEXTURE, texture == null ? DEFAULT_TEXTURE : texture);
+        this.entityData.set(TEXTURE, compoundTag.getString("Texture"));
         this.entityData.set(HEALTH, compoundTag.getFloat("Health"));
 
         this.createInventory();
